@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <string.h>
+
+void encrypt(char ch[], int k) {
+    int lench = strlen(ch);
+    int i;
+    char nch[lench];
+    int t1[lench];
+    int t2[lench];
+
+    for (i = 0; i < lench; i++) {
+        t1[i] = ch[i];
+        if (t1[i] >= 'a' && t1[i] <= 'z') {
+            t2[i] = ((t1[i] - 'a' + k) % 26) + 'a';
+        } else if (t1[i] >= 'A' && t1[i] <= 'Z') {
+            t2[i] = ((t1[i] - 'A' + k) % 26) + 'A';
+        } else {
+            t2[i] = t1[i]; 
+        }
+        nch[i] = (char)t2[i];
+    }
+    printf("Message chiffré : %s\n", nch);
+}
+
+void decrypt(char ch[], int k) {
+    int lench = strlen(ch);
+    int i;
+    char nch[lench];
+    int t1[lench];
+    int t2[lench];
+    for (i = 0; i < lench; i++) {
+        t1[i] = ch[i];
+        if (t1[i] >= 'a' && t1[i] <= 'z') {
+            t2[i] = ((t1[i] - 'a' - k + 26) % 26) + 'a';
+        } else if (t1[i] >= 'A' && t1[i] <= 'Z') {
+            t2[i] = ((t1[i] - 'A' - k + 26) % 26) + 'A';
+        } else {
+            t2[i] = t1[i]; 
+        }
+        nch[i] = (char)t2[i];
+    }
+    printf("Message déchiffré : %s\n", nch);
+}
+
+int main() {
+    int choice, key;
+    char message[20];
+    printf("Appuyez sur 1 pour chiffrer ou sur 2 pour déchiffrer :\n");
+
+    do {
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Entrez votre message et votre clé :\n");
+                scanf("%s", message);
+                scanf("%d", &key);
+                encrypt(message, key);
+                break;
+            case 2:
+                printf("Entrez votre message chiffré et votre clé :\n");
+                scanf("%s", message);
+                scanf("%d", &key);
+                decrypt(message, key);
+                break;
+            default:
+                printf("Choix invalide\n");
+                break;
+        }
+   } while (choice != 2);
+    return (0);
+}
